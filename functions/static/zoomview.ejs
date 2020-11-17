@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Zoom Robot</title>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <link href="./css/zoomview.css" rel="stylesheet">
+    <style>
+    html,body{
+        height: 100%;
+    }
+             
+    </style>    
+</head>
+
+<body>
+    <div id="tool">
+        <div id="controller" >
+            <div>
+                <label>移動：</label>
+                <button type="submit" class="btn btn-primary" id="turn_left" title="turn_left">←</button>
+                <button type="submit" class="btn btn-primary" id="turn_right" title="turn_right">→</button>
+                <button type="submit" class="btn btn-primary" id="go_fwd" title="go_fwd">↑</button>
+                <button type="submit" class="btn btn-primary" id="go_back" title="go_back">↓</button>
+                <button type="submit" class="btn btn-primary" id="open_zoom" title="open_zoom" style="margin-left: 30px;">ZOOMの再起動</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+document.getElementById('turn_left').addEventListener("click", function(e){
+    e.preventDefault();
+    var params = new Object();
+    params.cmd = "turn_left";
+    params.id = "<%-meetingNum %>";
+    params.user = "<%-display_name %>";
+    postData(JSON.stringify(params))
+})
+document.getElementById('turn_right').addEventListener("click", function(e){
+    e.preventDefault();
+    var params = new Object();
+    params.cmd = "turn_right"
+    params.id = "<%-meetingNum %>"
+    params.user = "<%-display_name %>";
+    postData(JSON.stringify(params))
+})
+
+document.getElementById('go_fwd').addEventListener("click", function(e){
+    e.preventDefault();
+    var params = new Object();
+    params.cmd = "go_fwd"
+    params.id = "<%-meetingNum %>"
+    params.user = "<%-display_name %>";
+    postData(JSON.stringify(params))
+})
+document.getElementById('go_back').addEventListener("click", function(e){
+    e.preventDefault();
+    var params = new Object();
+    params.cmd = "go_back"
+    params.id = "<%-meetingNum %>"
+    params.user = "<%-display_name %>";
+    postData(JSON.stringify(params))
+})
+document.getElementById('open_zoom').addEventListener("click", function(e){
+    e.preventDefault();
+    var params = new Object();
+    params.cmd = "open_zoom"
+    params.id = "<%-meetingNum %>"
+    params.user = "<%-display_name %>";
+    postData(JSON.stringify(params))
+})
+
+window.onload = function () {
+    var params = new Object();
+    params.cmd = "nop"
+    params.id = "<%-meetingNum %>"
+    params.user = "<%-display_name %>";
+    postData(JSON.stringify(params))
+};
+
+function postData(value){
+    $.ajax({
+        type: 'POST',
+        url: '/controll',
+        data: {"json":value},
+        dataType: 'text'
+    }).done(function(data){
+        console.log(data);
+    }).fail(function(xhr,err){
+        console.log(err);
+    });
+}
+
+    </script>
+    <iframe style="width:100%; height:90%; margin-right:auto; margin-left:auto;" srcdoc='
+      <html>
+      <head>
+      <meta charset="utf-8" />
+      <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.8/css/bootstrap.css" />
+      <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.8/css/react-select.css" />
+      <meta name="format-detection" content="telephone=no">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+      <link href="./css/zoomview.css" rel="stylesheet">
+      </head>
+
+      <body>
+      <script src="https://source.zoom.us/1.7.8/lib/vendor/react.min.js"></script>
+      <script src="https://source.zoom.us/1.7.8/lib/vendor/react-dom.min.js"></script>
+      <script src="https://source.zoom.us/1.7.8/lib/vendor/redux.min.js"></script>
+      <script src="https://source.zoom.us/1.7.8/lib/vendor/redux-thunk.min.js"></script>
+      <script src="https://source.zoom.us/1.7.8/lib/vendor/jquery.min.js"></script>
+      <script src="https://source.zoom.us/1.7.8/lib/vendor/lodash.min.js"></script>
+
+      <script src="https://source.zoom.us/zoom-meeting-1.7.8.min.js"></script>
+      <script type="text/javascript">
+          var hostname = "<%-hostname %>";
+          var apikey = "<%-apikey %>";
+          var meetingNum = "<%-meetingNum %>"
+          var password = "<%-password %>"
+          var display_name = "<%-display_name %>"
+          var role = "<%-role %>"
+          var signature = "<%-signature %>";
+      </script>
+      <script src="./js/tool.js"></script>
+      <script type="text/javascript" src="./js/index.js"></script>
+      </body>
+      </html>
+            '>
+
+    </iframe>
+</body>
+
+</html>

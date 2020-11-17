@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Zoom Robot</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.8/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.8/css/react-select.css" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+	<link href="./css/zoomview.css" rel="stylesheet">
+</head>
+
+<body>
+    <div>ミーティングID<input type="text" name="meetingid" id="meetingid" maxLength="100"  required></div>
+    <div>パスワード<input type="password" name="password" id="password" maxLength="100"  required></div>
+    <div>名前<input type="text" name="name" id="name" maxLength="100"  value="Guest" required></div>
+    <button type="button" name="button" value="connect" class="btn btn-default" onclick="connect()">接続</button>
+
+    <script src="./js/tool.js"></script>
+    <script>
+
+        function connect() {
+            var meetingid = document.getElementById('meetingid').value;
+            var password = document.getElementById('password').value;
+            var name = document.getElementById('name').value;
+
+            var params = new Object();
+            params.meetingid = meetingid;
+            params.password = password;
+            params.name = name;
+            postForm(JSON.stringify(params));
+        }
+
+        function postForm(value) {
+            var form = document.createElement('form');
+            document.body.appendChild(form);
+            var input = document.createElement( 'input' );
+            input.setAttribute( 'type' , 'hidden' );
+            input.setAttribute( 'name' , 'json' );
+            input.setAttribute( 'value' , value );
+            form.appendChild(input);
+            form.setAttribute( 'action' , './connect' );
+            form.setAttribute( 'method' , 'post' );
+            form.submit();
+        }
+    </script>
+</body>
+
+</html>
