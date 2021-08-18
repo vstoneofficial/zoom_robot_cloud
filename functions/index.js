@@ -3,6 +3,8 @@ const express = require('express')
 const basicAuth = require('basic-auth-connect')
 const ejs = require('ejs');
 const fs = require('fs');
+//const ZoomMtg = require('@zoomus/websdk');
+
 const auth = require('./controllers/auth.js');
 
 const app = express()
@@ -75,7 +77,7 @@ async function basemenu(request,response){
 
       case '/leave':
         respCode=200;
-        respBody="通話が完了しました。<br /><a href='./index.html' target='_top'>[戻る]</a>"
+        respBody=fs.readFileSync(`./static/leave.ejs`).toString();
         break;
 
       case '/controll':
@@ -143,15 +145,4 @@ async function set_command(id,param){
   let cmdRef = fireStore.collection(COLLECTION_COMMAND).doc(id);
   let setCmd = cmdRef.set(param);
 
-/*
-  let transaction = fireStore.runTransaction(t => {
-    return t.get(cmdRef)
-      .then(doc => {
-        t.set(cmdRef,param);
-      });
-  }).then(result => {
-    console.log('Transaction success!');
-  }).catch(err => {
-    console.log('Transaction failure:', err);
-  });*/
 }

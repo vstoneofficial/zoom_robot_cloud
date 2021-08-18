@@ -10,7 +10,8 @@
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareJssdk();
     
-    $.i18n.reload("jp-JP");
+    ZoomMtg.i18n.load("jp-JP");
+    ZoomMtg.i18n.reload("jp-JP");
     ZoomMtg.reRender({lang: "jp-JP"});
 
     var meetConfig = {
@@ -25,6 +26,17 @@
     ZoomMtg.init({
         leaveUrl: meetConfig.leaveUrl,
         success: function () {
+            ZoomMtg.i18n.load("jp-JP");
+            ZoomMtg.i18n.reload("jp-JP");
+            ZoomMtg.reRender({lang: "jp-JP"});
+
+            console.log("ZoomMtg.init is success. reload start");
+            const match = window.parent.document.getElementById("zoomframe").style.height.match(/[0-9]+/g);
+            window.parent.document.getElementById("zoomframe").style.height = `1%`;
+            setTimeout(function(){
+                window.parent.document.getElementById("zoomframe").style.height = `${match[0]}%`;
+            },1000);
+
             ZoomMtg.join(
                 {
                     meetingNumber: meetConfig.meetingNumber,
@@ -35,6 +47,7 @@
                     success: function(res){
                         $('#nav-tool').hide();
                         console.log('join meeting success');
+                        window.parent.document.getElementById('controller').style.visibility = 'visible';
                     },
                     error: function(res) {
                         console.log(res);
